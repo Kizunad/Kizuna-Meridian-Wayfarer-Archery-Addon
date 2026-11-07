@@ -1,0 +1,16 @@
+description = '仅用于目录验证和测试身体宿主；不装入正式 Fabric 包。'
+
+dependencies {
+    api project(':shared')
+    api 'dev.kizuna.meridian.technique:server'
+    api 'dev.kizuna.meridian.human:server'
+    api 'local.meridian:server'
+    testImplementation libs.junit4
+    testImplementation libs.gson
+}
+
+test {
+    useJUnit()
+    systemProperty 'wayfarerArchery.fabricJar', project(':fabric').tasks.named('jar').get().archiveFile.get().asFile
+    dependsOn ':fabric:jar'
+}

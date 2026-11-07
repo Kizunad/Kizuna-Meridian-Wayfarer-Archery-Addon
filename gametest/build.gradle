@@ -1,0 +1,36 @@
+plugins { id 'net.fabricmc.fabric-loom' }
+
+description = '行矢正式目录与 Human、Damage 实体执行的整合 GameTest。'
+
+dependencies {
+    minecraft libs.minecraft
+    implementation libs.fabric.loader
+    implementation libs.fabric.api
+    implementation project(':verification')
+    implementation('dev.kizuna.meridian.human:fabric') { transitive = false }
+    implementation('dev.kizuna.meridian.technique:fabric') { transitive = false }
+    implementation('dev.kizuna.meridian.vanilla:fabric') { transitive = false }
+    implementation testFixtures('dev.kizuna.meridian.technique:fabric')
+    compileOnly('dev.kizuna.meridian:fabric') { transitive = false }
+    // 由发行 JAR 自己声明清单，测试模组不重复注册目录或身体宿主。
+    localRuntime files(rootProject.project(':fabric').tasks.named('jar'))
+}
+
+loom {
+    mods {
+        meridian_wayfarer_test { sourceSet sourceSets.main }
+    }
+    runs {
+        gametest {
+            server()
+            name '行矢整合 GameTest'
+            // 每次配置都使用独立目录，避免旧世界与玩家存档影响结果。
+            runDir providers.gradleProperty('gametestRunDir')
+                    .getOrElse("build/gametest-${System.currentTimeMillis()}")
+            vmArg '-Dfabric-api.gametest'
+            vmArg '-Dfabric-api.gametest.report-file=build/gametest-results.xml'
+        }
+    }
+}
+
+apply from: new File(kizunaWorkspace.directory('framework'), 'scripts/full-assembly.gradle')

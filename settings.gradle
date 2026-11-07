@@ -1,0 +1,33 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+// 工具链与相邻仓位置由 Framework 的统一工作区清单提供。
+apply from: new File(rootDir.parentFile, 'Kizuna-Meridian-Mod-Framework/scripts/workspace.gradle')
+
+rootProject.name = 'kizuna-meridian-wayfarer-archery-addon'
+include 'shared', 'fabric', 'verification', 'gametest'
+
+// 真实宿主 GameTest 与目录校验均引用相邻仓当前源码。
+kizunaWorkspace.includeSource('framework', [
+        client: ['local.meridian:client', 'dev.kizuna.meridian:client'],
+        server: ['local.meridian:server', 'dev.kizuna.meridian:server']
+])
+kizunaWorkspace.includeSource('technique', [
+        fabric: 'dev.kizuna.meridian.technique:fabric',
+        server: 'dev.kizuna.meridian.technique:server',
+        shared: 'dev.kizuna.meridian.technique:shared'
+])
+kizunaWorkspace.includeSource('human', [
+        fabric: 'dev.kizuna.meridian.human:fabric',
+        server: 'dev.kizuna.meridian.human:server',
+        shared: 'dev.kizuna.meridian.human:shared'
+])
+kizunaWorkspace.includeSource('vanilla-damage', [
+        fabric: 'dev.kizuna.meridian.vanilla:fabric',
+        server: 'dev.kizuna.meridian.vanilla:server'
+])

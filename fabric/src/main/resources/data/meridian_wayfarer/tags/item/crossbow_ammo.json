@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#meridian_wayfarer:ammo",
+    "minecraft:firework_rocket"
+  ]
+}

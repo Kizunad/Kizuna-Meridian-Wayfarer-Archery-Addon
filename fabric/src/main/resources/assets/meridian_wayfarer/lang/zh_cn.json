@@ -1,0 +1,21 @@
+{
+  "book.meridian_wayfarer.wayfarer": "行矢",
+  "volume.meridian_wayfarer.bow_upper": "弓·上卷·百步",
+  "volume.meridian_wayfarer.crossbow": "弩卷·机弩",
+  "volume.meridian_wayfarer.bow_lower": "弓·下卷·万矢",
+  "death.attack.meridian_wayfarer.bow_strike": "%1$s 被弓梢击倒了",
+  "death.attack.meridian_wayfarer.bow_strike.player": "%1$s 被 %2$s 的弓梢击倒了",
+  "technique.meridian_wayfarer.full_draw": "满月",
+  "technique.meridian_wayfarer.pearls": "连珠",
+  "technique.meridian_wayfarer.bow_strike": "弓梢",
+  "technique.meridian_wayfarer.repeater": "连弩",
+  "technique.meridian_wayfarer.gale": "横风",
+  "technique.meridian_wayfarer.kneeling": "跪射",
+  "technique.meridian_wayfarer.parthian": "回马",
+  "technique.meridian_wayfarer.arrow_rain": "箭雨",
+  "technique.meridian_wayfarer.convergence": "天地同至",
+  "technique.meridian_wayfarer.dry_draw": "拉空弓",
+  "item.meridian_wayfarer.bow_upper_scroll": "行矢·弓·上卷·百步",
+  "item.meridian_wayfarer.crossbow_scroll": "行矢·弩卷·机弩",
+  "item.meridian_wayfarer.bow_lower_scroll": "行矢·弓·下卷·万矢"
+}

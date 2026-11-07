@@ -1,0 +1,1984 @@
+# 行矢正式目录。数值均为占位；work 在每次准备拉弦的开始事件支付。
+
+schema_version: 1
+
+namespace: "meridian_wayfarer"
+
+binding_templates { id: "human:adult" version: 1 }
+
+books {
+  id: "meridian_wayfarer:wayfarer"
+  display_name: "行矢"
+  held_item_rules {
+
+    categories {
+      id: "bows"
+      item_tags: "meridian_wayfarer:bows"
+      projectile_weapon: BOW
+      ammunition_tags: "meridian_wayfarer:ammo"
+      selection_priority: 0
+      base_damage_source: FIXED_DAMAGE
+      base_damage { value: 2.5 unit: DAMAGE_POINT }
+      injury_kind: BLUNT
+      shield_interaction: NO_SHIELD_BREAK
+      can_break_doors: false
+    }
+
+    categories {
+      id: "crossbows"
+      item_tags: "meridian_wayfarer:crossbows"
+      projectile_weapon: CROSSBOW
+      ammunition_tags: "meridian_wayfarer:crossbow_ammo"
+      selection_priority: 0
+      base_damage_source: FIXED_DAMAGE
+      base_damage { value: 2.5 unit: DAMAGE_POINT }
+      injury_kind: BLUNT
+      shield_interaction: NO_SHIELD_BREAK
+      can_break_doors: false
+    }
+
+    categories {
+      id: "other_items"
+      selection_priority: 1
+      base_damage_source: FIXED_DAMAGE
+      base_damage { value: 2.5 unit: DAMAGE_POINT }
+      injury_kind: BLUNT
+      shield_interaction: NO_SHIELD_BREAK
+      can_break_doors: false
+    }
+
+    durability { multiplier { value: 1 unit: RATIO } }
+    selection_order: CATEGORY_PRIORITY
+    selection_order: DURABILITY_MULTIPLIER
+    selection_order: PREFER_MAIN_HAND
+    ammunition_tags: "meridian_wayfarer:ammo"
+    require_ammunition: true
+    other_hand_empty_or_ammunition: true
+  }
+}
+
+volumes {
+  id: "meridian_wayfarer:bow_upper"
+  book_id: "meridian_wayfarer:wayfarer"
+  display_name: "百步"
+  techniques { id: "meridian_wayfarer:full_draw" version: 1 }
+  techniques { id: "meridian_wayfarer:pearls" version: 1 }
+  techniques { id: "meridian_wayfarer:bow_strike" version: 1 }
+  techniques { id: "meridian_wayfarer:dry_draw" version: 1 }
+}
+
+volumes {
+  id: "meridian_wayfarer:crossbow"
+  book_id: "meridian_wayfarer:wayfarer"
+  display_name: "机弩"
+  techniques { id: "meridian_wayfarer:repeater" version: 1 }
+  techniques { id: "meridian_wayfarer:gale" version: 1 }
+  techniques { id: "meridian_wayfarer:kneeling" version: 1 }
+}
+
+volumes {
+  id: "meridian_wayfarer:bow_lower"
+  book_id: "meridian_wayfarer:wayfarer"
+  display_name: "万矢"
+  techniques { id: "meridian_wayfarer:parthian" version: 1 }
+  techniques { id: "meridian_wayfarer:arrow_rain" version: 1 }
+  techniques { id: "meridian_wayfarer:convergence" version: 1 }
+  prerequisite_volume_ids: "meridian_wayfarer:bow_upper"
+}
+
+definitions {
+  id: "meridian_wayfarer:full_draw"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "arms"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 8 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 3600
+    active_millis: 0
+    recovery_millis: 2400
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 4000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_full_draw"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 2300
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 1.3 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3600
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1.3 unit: RATIO }
+      damage_multiplier { value: 1.5 unit: RATIO }
+      critical: true
+      piercing: 1
+      spread { value: 0 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:repeater" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:gale" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:kneeling" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 15 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:full_draw"
+    display_name: "满月"
+    description: "满月"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:pearls"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "draw"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 3
+    maximum_count: 3
+    relative_arm {
+      arm: OTHER_ARM
+      left_module_ids: "left_biceps_brachii"
+      left_module_ids: "left_triceps_brachii"
+      left_module_ids: "left_brachioradialis"
+      right_module_ids: "right_biceps_brachii"
+      right_module_ids: "right_triceps_brachii"
+      right_module_ids: "right_brachioradialis"
+    }
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 8 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 2000
+    active_millis: 1100
+    recovery_millis: 1900
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 4000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_pearls"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1700
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 66.66666666666667 unit: WATT }
+      duration { value: 0.25 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2000
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 0.85 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 1.5 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2250
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 66.66666666666667 unit: WATT }
+      duration { value: 0.25 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2550
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 0.85 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 1.5 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2800
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 66.66666666666667 unit: WATT }
+      duration { value: 0.25 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3100
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 0.85 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 1.5 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:repeater" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:gale" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:kneeling" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:bow_strike" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: BOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 6 unit: METER }
+    maximum_distance { value: 15 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:pearls"
+    display_name: "连珠"
+    description: "连珠"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:bow_strike"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "legs"
+    module: TISSUE
+    tags: "human:leg_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  slots {
+    id: "draw"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 3
+    maximum_count: 3
+    relative_arm {
+      arm: OTHER_ARM
+      left_module_ids: "left_biceps_brachii"
+      left_module_ids: "left_triceps_brachii"
+      left_module_ids: "left_brachioradialis"
+      right_module_ids: "right_biceps_brachii"
+      right_module_ids: "right_triceps_brachii"
+      right_module_ids: "right_brachioradialis"
+    }
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 8 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 1400
+    active_millis: 1300
+    recovery_millis: 2300
+    interruptible_by_damage: false
+  }
+  cooldown_millis: 4000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_bow_strike"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1400
+    weapon_strike {
+      shape: SINGLE_TARGET
+      facing_offset { value: 0 unit: DEGREE }
+      distance { value: 3 unit: METER }
+      angle { value: 60 unit: DEGREE }
+      multiplier { value: 1 unit: RATIO }
+      maximum_targets: 1
+      cast_target_limit: 1
+      knockback { value: 1.2 unit: RATIO }
+      can_two_hand: false
+      two_hand_multiplier { value: 1 unit: RATIO }
+      break_shield: false
+      injury_override: BLUNT
+      last_strike: true
+      durability_base: 1
+      shield_cooldown_millis: 0
+      shield_break_millis: 0
+      dedup_group: "bow_strike"
+      main_hand_damage_type_id: "meridian_wayfarer:bow_strike_main"
+      off_hand_damage_type_id: "meridian_wayfarer:bow_strike_off"
+    }
+  }
+  effects {
+    at_millis: 1700
+    work {
+      slot_id: "legs"
+      force { value: 0 unit: NEWTON }
+      power { value: 100 unit: WATT }
+      duration { value: 0.25 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 1700
+    impulse {
+      direction: INPUT
+      speed { value: 3 unit: METERS_PER_SECOND }
+      input_default_direction: BACKWARD
+    }
+  }
+  effects {
+    at_millis: 1950
+    work {
+      slot_id: "legs"
+      force { value: 0 unit: NEWTON }
+      power { value: 100 unit: WATT }
+      duration { value: 0.25 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 1950
+    impulse {
+      direction: INPUT
+      speed { value: 3 unit: METERS_PER_SECOND }
+      input_default_direction: BACKWARD
+    }
+  }
+  effects {
+    at_millis: 2300
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 66.66666666666667 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2700
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 1 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:repeater" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 300
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:gale" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 300
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:kneeling" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 300
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: BOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 3 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:bow_strike"
+    display_name: "弓梢"
+    description: "弓梢"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:repeater"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: CROSSBOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "draw"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 3
+    maximum_count: 3
+    relative_arm {
+      arm: OTHER_ARM
+      left_module_ids: "left_biceps_brachii"
+      left_module_ids: "left_triceps_brachii"
+      left_module_ids: "left_brachioradialis"
+      right_module_ids: "right_biceps_brachii"
+      right_module_ids: "right_triceps_brachii"
+      right_module_ids: "right_brachioradialis"
+    }
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 10 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 1600
+    active_millis: 1600
+    recovery_millis: 1800
+    interruptible_by_damage: false
+  }
+  cooldown_millis: 5000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_repeater"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1200
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 1600
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 2 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 1620
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2000
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 2 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2020
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2400
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 2 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2420
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2800
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 2 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2820
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3200
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 2 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:full_draw" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:pearls" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:bow_strike" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:parthian" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:arrow_rain" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 6 unit: METER }
+    maximum_distance { value: 15 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:repeater"
+    display_name: "连弩"
+    description: "连弩"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:gale"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: CROSSBOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "draw"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 3
+    maximum_count: 3
+    relative_arm {
+      arm: OTHER_ARM
+      left_module_ids: "left_biceps_brachii"
+      left_module_ids: "left_triceps_brachii"
+      left_module_ids: "left_brachioradialis"
+      right_module_ids: "right_biceps_brachii"
+      right_module_ids: "right_triceps_brachii"
+      right_module_ids: "right_brachioradialis"
+    }
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 12 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 2200
+    active_millis: 1750
+    recovery_millis: 2050
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 6000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_gale"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1850
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2200
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: 45 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  effects {
+    at_millis: 2230
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2550
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: 27 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  effects {
+    at_millis: 2580
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2900
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: 9 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  effects {
+    at_millis: 2930
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3250
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: -9 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  effects {
+    at_millis: 3280
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3600
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: -27 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  effects {
+    at_millis: 3630
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 83.33333333333333 unit: WATT }
+      duration { value: 0.35 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3950
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 0.9 unit: RATIO }
+      damage_multiplier { value: 0.6 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 3 unit: DEGREE }
+      look_offset { value: -45 unit: DEGREE }
+      target_snap_angle { value: 9 unit: DEGREE }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: true
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:full_draw" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:pearls" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:bow_strike" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:parthian" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:arrow_rain" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:repeater" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: CROSSBOW
+      next_projectile_weapon: CROSSBOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 6 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:gale"
+    display_name: "横风"
+    description: "横风"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:kneeling"
+  version: 1
+  category: ATTACK
+  minimum_realm: WANDERING_QI
+  projectile_weapon: CROSSBOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "draw"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 3
+    maximum_count: 3
+    relative_arm {
+      arm: OTHER_ARM
+      left_module_ids: "left_biceps_brachii"
+      left_module_ids: "left_triceps_brachii"
+      left_module_ids: "left_brachioradialis"
+      right_module_ids: "right_biceps_brachii"
+      right_module_ids: "right_triceps_brachii"
+      right_module_ids: "right_brachioradialis"
+    }
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: FREE
+      amount { value: 10 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 2600
+    active_millis: 2200
+    recovery_millis: 2200
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 6000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_kneeling"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1400
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 100 unit: WATT }
+      duration { value: 0.55 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2600
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1.4 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: true
+      piercing: 1
+      spread { value: 0 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2820
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 100 unit: WATT }
+      duration { value: 0.275 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3700
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1.4 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: true
+      piercing: 1
+      spread { value: 0 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 3920
+    work {
+      slot_id: "draw"
+      force { value: 0 unit: NEWTON }
+      power { value: 100 unit: WATT }
+      duration { value: 0.275 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 4800
+    launch_projectile {
+      projectile_weapon: CROSSBOW
+      speed_multiplier { value: 1.4 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: true
+      piercing: 1
+      spread { value: 0 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:full_draw" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:pearls" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:bow_strike" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:parthian" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:arrow_rain" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 400
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: CROSSBOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 15 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:kneeling"
+    display_name: "跪射"
+    description: "跪射"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:parthian"
+  version: 1
+  category: ATTACK
+  minimum_realm: TRUE_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "foot_meridians"
+    module: MERIDIAN
+    tags: "human:foot_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "legs"
+    module: TISSUE
+    tags: "human:leg_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  slots {
+    id: "arms"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: GAS
+      amount { value: 10 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 800
+    active_millis: 1250
+    recovery_millis: 2950
+    interruptible_by_damage: false
+  }
+  cooldown_millis: 5000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_parthian"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 800
+    work {
+      slot_id: "legs"
+      force { value: 0 unit: NEWTON }
+      power { value: 133.33333333333334 unit: WATT }
+      duration { value: 0.2 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 800
+    impulse {
+      direction: INPUT
+      speed { value: 3 unit: METERS_PER_SECOND }
+      input_default_direction: BACKWARD
+    }
+  }
+  effects {
+    at_millis: 1100
+    work {
+      slot_id: "legs"
+      force { value: 0 unit: NEWTON }
+      power { value: 133.33333333333334 unit: WATT }
+      duration { value: 0.2 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 1100
+    impulse {
+      direction: INPUT
+      speed { value: 3 unit: METERS_PER_SECOND }
+      input_default_direction: BACKWARD
+    }
+  }
+  effects {
+    at_millis: 1400
+    work {
+      slot_id: "legs"
+      force { value: 0 unit: NEWTON }
+      power { value: 133.33333333333334 unit: WATT }
+      duration { value: 0.3 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 1400
+    impulse {
+      direction: INPUT
+      speed { value: 3 unit: METERS_PER_SECOND }
+      input_default_direction: BACKWARD
+    }
+  }
+  effects {
+    at_millis: 1400
+    impulse { direction: UP speed { value: 6 unit: METERS_PER_SECOND } }
+  }
+  effects {
+    at_millis: 1550
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.5 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2050
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1.2 unit: RATIO }
+      critical: true
+      piercing: 0
+      spread { value: 1 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    transitions {
+      previous { id: "meridian_wayfarer:pearls" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 350
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: BOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:parthian"
+    display_name: "回马"
+    description: "回马"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:arrow_rain"
+  version: 1
+  category: ATTACK
+  minimum_realm: TRUE_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "foot_meridians"
+    module: MERIDIAN
+    tags: "human:foot_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "arms"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: GAS
+      amount { value: 15 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 2800
+    active_millis: 1600
+    recovery_millis: 2600
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 8000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_arrow_rain"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1800
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 1.3 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2800
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      lob {
+        maximum_distance { value: 32 unit: METER }
+        radius { value: 3 unit: METER }
+        elevation { value: 50 unit: DEGREE }
+        maximum_speed_multiplier { value: 1.1 unit: RATIO }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2950
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.325 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3200
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      lob {
+        maximum_distance { value: 32 unit: METER }
+        radius { value: 3 unit: METER }
+        elevation { value: 50 unit: DEGREE }
+        maximum_speed_multiplier { value: 1.1 unit: RATIO }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 3350
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.325 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3600
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      lob {
+        maximum_distance { value: 32 unit: METER }
+        radius { value: 3 unit: METER }
+        elevation { value: 50 unit: DEGREE }
+        maximum_speed_multiplier { value: 1.1 unit: RATIO }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 3750
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.325 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 4000
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      lob {
+        maximum_distance { value: 32 unit: METER }
+        radius { value: 3 unit: METER }
+        elevation { value: 50 unit: DEGREE }
+        maximum_speed_multiplier { value: 1.1 unit: RATIO }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 4150
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.325 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 4400
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      lob {
+        maximum_distance { value: 32 unit: METER }
+        radius { value: 3 unit: METER }
+        elevation { value: 50 unit: DEGREE }
+        maximum_speed_multiplier { value: 1.1 unit: RATIO }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:arrow_rain"
+    display_name: "箭雨"
+    description: "箭雨"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:convergence"
+  version: 1
+  category: ATTACK
+  minimum_realm: TRUE_QI
+  projectile_weapon: BOW
+  require_ammunition: true
+  movement_speed_multiplier: 0.4
+  slots {
+    id: "hand_meridians"
+    module: MERIDIAN
+    tags: "human:hand_meridian"
+    minimum_count: 2
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "foot_meridians"
+    module: MERIDIAN
+    tags: "human:foot_meridian"
+    minimum_count: 1
+    maximum_count: 6
+    require_opened: true
+  }
+  slots {
+    id: "arms"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  cost {
+    qi {
+      slot_id: "hand_meridians"
+      matching: ANY_ATTRIBUTE_AT_LEAST_PHASE
+      phase: GAS
+      amount { value: 30 unit: QI }
+      distribution: EVEN
+    }
+  }
+  phases {
+    warmup_millis: 2500
+    active_millis: 2500
+    recovery_millis: 4000
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 15000
+  lock_target: true
+  target_lock_distance { value: 32 unit: METER }
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_convergence"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 2100
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.4 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2500
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      converge {
+        reference_shot_millis: 5000
+        reference_speed_multiplier { value: 1.5 unit: RATIO }
+        arrival_delay_millis: 100
+        minimum_elevation { value: 45 unit: DEGREE }
+        fallback {
+          maximum_distance { value: 32 unit: METER }
+          radius { value: 0 unit: METER }
+          elevation { value: 50 unit: DEGREE }
+          maximum_speed_multiplier { value: 1.1 unit: RATIO }
+        }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 2650
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.3 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 2900
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      converge {
+        reference_shot_millis: 5000
+        reference_speed_multiplier { value: 1.5 unit: RATIO }
+        arrival_delay_millis: 100
+        minimum_elevation { value: 45 unit: DEGREE }
+        fallback {
+          maximum_distance { value: 32 unit: METER }
+          radius { value: 0 unit: METER }
+          elevation { value: 50 unit: DEGREE }
+          maximum_speed_multiplier { value: 1.1 unit: RATIO }
+        }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 3050
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 41.666666666666664 unit: WATT }
+      duration { value: 0.3 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 3300
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1 unit: RATIO }
+      damage_multiplier { value: 1 unit: RATIO }
+      critical: false
+      piercing: 0
+      spread { value: 0 unit: DEGREE }
+      converge {
+        reference_shot_millis: 5000
+        reference_speed_multiplier { value: 1.5 unit: RATIO }
+        arrival_delay_millis: 100
+        minimum_elevation { value: 45 unit: DEGREE }
+        fallback {
+          maximum_distance { value: 32 unit: METER }
+          radius { value: 0 unit: METER }
+          elevation { value: 50 unit: DEGREE }
+          maximum_speed_multiplier { value: 1.1 unit: RATIO }
+        }
+      }
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 0
+      mirror_by_hand: false
+    }
+  }
+  effects {
+    at_millis: 3600
+    tissue_modifier {
+      slot_id: "arms"
+      activation: AT_EFFECT_TIME
+      curve { offset_millis: 0 value: 0 }
+      curve { offset_millis: 400 value: 1 }
+      curve { offset_millis: 1600 value: 1 }
+      curve { offset_millis: 2400 value: -1 }
+      curve { offset_millis: 9000 value: -1 }
+      curve { offset_millis: 11000 value: 0 }
+      strength_peak { value: 1.4 unit: RATIO }
+      burst_peak { value: 1.4 unit: RATIO }
+      endurance_peak { value: 1 unit: RATIO }
+      recovery_peak { value: 1 unit: RATIO }
+    }
+  }
+  effects {
+    at_millis: 4100
+    work {
+      slot_id: "arms"
+      force { value: 0 unit: NEWTON }
+      power { value: 50 unit: WATT }
+      duration { value: 0.9 unit: SECOND }
+    }
+  }
+  effects {
+    at_millis: 5000
+    launch_projectile {
+      projectile_weapon: BOW
+      speed_multiplier { value: 1.5 unit: RATIO }
+      damage_multiplier { value: 2 unit: RATIO }
+      critical: true
+      piercing: 2
+      spread { value: 0 unit: DEGREE }
+      look: true
+      multiply_draw_strength: true
+      draw_strength_arm: OTHER_ARM
+      shield_cooldown_millis: 3000
+      mirror_by_hand: false
+    }
+  }
+  follow_up {
+    only_follow_up: true
+    transitions {
+      previous { id: "meridian_wayfarer:full_draw" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 1200
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: BOW
+    }
+    transitions {
+      previous { id: "meridian_wayfarer:arrow_rain" version: 1 }
+      recovery_start_ratio { value: 0.5 unit: RATIO }
+      after_recovery_millis: 500
+      start_millis: 1200
+      previous_projectile_weapon: BOW
+      next_projectile_weapon: BOW
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 1 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:convergence"
+    display_name: "天地同至"
+    description: "天地同至"
+  }
+}
+
+definitions {
+  id: "meridian_wayfarer:dry_draw"
+  version: 1
+  category: CULTIVATION
+  minimum_realm: WANDERING_QI
+  projectile_weapon: BOW
+  require_ammunition: false
+  movement_speed_multiplier: 0
+  slots {
+    id: "arms"
+    module: TISSUE
+    tags: "human:arm_muscle"
+    minimum_count: 6
+    maximum_count: 6
+  }
+  cost {}
+  phases {
+    warmup_millis: 31000
+    active_millis: 0
+    recovery_millis: 1000
+    interruptible_by_damage: true
+  }
+  cooldown_millis: 43000
+  effects {
+    at_millis: 0
+    presentation {
+      id: "meridian_wayfarer:wayfarer_dry_draw"
+      duration: UNTIL_RECOVERY_END
+      start_millis: 0
+    }
+  }
+  effects {
+    at_millis: 1000
+    work {
+      slot_id: "arms"
+      force { value: 80 unit: NEWTON }
+      power { value: 45 unit: WATT }
+      duration { value: 6 unit: SECOND }
+      training: true
+    }
+  }
+  effects {
+    at_millis: 7000
+    work {
+      slot_id: "arms"
+      force { value: 80 unit: NEWTON }
+      power { value: 45 unit: WATT }
+      duration { value: 6 unit: SECOND }
+      training: true
+    }
+  }
+  effects {
+    at_millis: 13000
+    work {
+      slot_id: "arms"
+      force { value: 80 unit: NEWTON }
+      power { value: 45 unit: WATT }
+      duration { value: 6 unit: SECOND }
+      training: true
+    }
+  }
+  effects {
+    at_millis: 19000
+    work {
+      slot_id: "arms"
+      force { value: 80 unit: NEWTON }
+      power { value: 45 unit: WATT }
+      duration { value: 6 unit: SECOND }
+      training: true
+    }
+  }
+  effects {
+    at_millis: 25000
+    work {
+      slot_id: "arms"
+      force { value: 80 unit: NEWTON }
+      power { value: 45 unit: WATT }
+      duration { value: 6 unit: SECOND }
+      training: true
+    }
+  }
+  ai_hints {
+    minimum_distance { value: 0 unit: METER }
+    maximum_distance { value: 32 unit: METER }
+    maximum_hp_ratio { value: 1 unit: RATIO }
+    minimum_qi_ratio { value: 0 unit: RATIO }
+    category_weight { value: 0 unit: RATIO }
+  }
+  presentation {
+    icon_id: "meridian_wayfarer:dry_draw"
+    display_name: "拉空弓"
+    description: "拉空弓"
+  }
+}

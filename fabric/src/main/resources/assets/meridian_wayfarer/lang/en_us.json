@@ -1,0 +1,21 @@
+{
+  "book.meridian_wayfarer.wayfarer": "Wayfarer",
+  "volume.meridian_wayfarer.bow_upper": "Bow I · Hundred Paces",
+  "volume.meridian_wayfarer.crossbow": "Crossbow · Repeating Mechanism",
+  "volume.meridian_wayfarer.bow_lower": "Bow II · Myriad Arrows",
+  "death.attack.meridian_wayfarer.bow_strike": "%1$s was struck down by a bow",
+  "death.attack.meridian_wayfarer.bow_strike.player": "%1$s was struck down by %2$s's bow",
+  "technique.meridian_wayfarer.full_draw": "Full Draw",
+  "technique.meridian_wayfarer.pearls": "String of Pearls",
+  "technique.meridian_wayfarer.bow_strike": "Bow Strike",
+  "technique.meridian_wayfarer.repeater": "Repeater",
+  "technique.meridian_wayfarer.gale": "Crosswind",
+  "technique.meridian_wayfarer.kneeling": "Kneeling Shot",
+  "technique.meridian_wayfarer.parthian": "Parthian Shot",
+  "technique.meridian_wayfarer.arrow_rain": "Arrow Rain",
+  "technique.meridian_wayfarer.convergence": "Convergence",
+  "technique.meridian_wayfarer.dry_draw": "Dry Draw",
+  "item.meridian_wayfarer.bow_upper_scroll": "Wayfarer · Bow I · Hundred Paces",
+  "item.meridian_wayfarer.crossbow_scroll": "Wayfarer · Crossbow · Repeating Mechanism",
+  "item.meridian_wayfarer.bow_lower_scroll": "Wayfarer · Bow II · Myriad Arrows"
+}
