@@ -194,7 +194,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:full_draw"
     display_name: "满月"
-    description: "满月"
+    description: "几个老猎人自哨塔基石向南一步步丈量到那棵被穿透的老橡树，足足量出三百二十步。回村一说，酒桌上没一个人信，都笑他们把步子迈小了，或者是把雷击的痕迹当成了箭孔。"
   }
 }
 
@@ -373,7 +373,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:pearls"
     display_name: "连珠"
-    description: "连珠"
+    description: "峡谷伏击那晚，活下来的人谁也没看清箭从哪儿射来。耳边只听得弓弦密密麻麻响成一片，像是急雨砸在干枯的荷叶上，又似一整盘算盘珠子骤然倾翻在青石板上。声响骤停，林子里已无喘息声。"
   }
 }
 
@@ -559,7 +559,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:bow_strike"
     display_name: "弓梢"
-    description: "弓梢"
+    description: "营里的弩手们都笑话它糟蹋物件，说弓梢是用来挂弦的，拿去砸人骨头不成体统。它全当耳旁风，照样用浸了桐油的粗麻绳把两端弓梢一层层裹紧，真教近身的盗匪尝了，比熟铜棍还要硬上三分。"
   }
 }
 
@@ -796,7 +796,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:repeater"
     display_name: "连弩"
-    description: "连弩"
+    description: "族里的老长辈曾拍着前哨站的木栏杆训诫：“装一支，射一支，自古的规矩变不得。”它没吭声，只是将机匣贴紧面颊，手指如飞。三声短促的闷响几乎叠在一处，老头看着靶心三支尾羽，再没说过半句话。"
   }
 }
 
@@ -1072,7 +1072,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:gale"
     display_name: "横风"
-    description: "横风"
+    description: "巡逻队里年轻的掠夺者都爱学它把弩横压在腰际，甩身泼射，结果射出的箭全扎进泥里或飞上树梢。他们学得了那份斜跨弓弩的狂放，却学不来它腰眼上那股如磐石般咬死地面的暗劲。"
   }
 }
 
@@ -1259,7 +1259,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:kneeling"
     display_name: "跪射"
-    description: "跪射"
+    description: "它右边裤腿的膝盖处永远磨得发白破烂，里头露出一块铜钱厚的青灰色老茧。常人纳闷它因何总跪着半截身子，直到见它单膝触地当下稳住箭势，在草叶翻飞中射翻了奔马，方知那是它的生根之处。"
   }
 }
 
@@ -1425,7 +1425,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:parthian"
     display_name: "回马"
-    description: "回马"
+    description: "后头追赶的掠夺小队嬉笑着呼喝，眼见前面那道背影踉踉跄跄越跑越慢，唾手可得。谁想它脚下一拧，身形陡然止住回旋。它一辈子没有骑过马，可这记借着退势扭身射出的冷箭，却比烈马回头还要惊心。"
   }
 }
 
@@ -1644,7 +1644,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:arrow_rain"
     display_name: "箭雨"
-    description: "箭雨"
+    description: "山坳里的村民总念叨那年中秋落过一场黑雨，噼里啪啦扎透了草棚和麦垛，拔下来全是白羽箭。直到多年后巡林客路过才道出实情：那天山后隘口聚集了成群的僵尸，是有人隔着整座山岗抛过去的。"
   }
 }
 
@@ -1884,7 +1884,7 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:convergence"
     display_name: "天地同至"
-    description: "天地同至"
+    description: "弥留之际，围在床头的老弩手轻声问它平生哪一箭最得意。它半睁着浑浊的眼睛，咳出一口浊气，哑声说道：“天上的云落下来，地上的草迎上去，在心口碰头的那一下最好。”"
   }
 }
 
@@ -1979,6 +1979,6 @@ definitions {
   presentation {
     icon_id: "meridian_wayfarer:dry_draw"
     display_name: "拉空弓"
-    description: "拉空弓"
+    description: "如今林中营地有个不成文的规矩：若有娃儿深夜哭嚎不止，妇人便塞给他一把拆了箭的短木弓。这习俗全因当年它刚落地时也是这般折腾人，唯有握着空弓反复拉响弓弦，方才破涕为笑。"
   }
 }
