@@ -192,7 +192,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 15 unit: METER }
-    maximum_distance { value: 32 unit: METER }
+    maximum_distance { value: 128 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -371,7 +371,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 6 unit: METER }
-    maximum_distance { value: 15 unit: METER }
+    maximum_distance { value: 89 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -794,7 +794,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 6 unit: METER }
-    maximum_distance { value: 15 unit: METER }
+    maximum_distance { value: 126 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -1257,7 +1257,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 15 unit: METER }
-    maximum_distance { value: 32 unit: METER }
+    maximum_distance { value: 128 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -1423,7 +1423,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 0 unit: METER }
-    maximum_distance { value: 32 unit: METER }
+    maximum_distance { value: 116 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -1509,7 +1509,7 @@ definitions {
       piercing: 0
       spread { value: 0 unit: DEGREE }
       lob {
-        maximum_distance { value: 32 unit: METER }
+        maximum_distance { value: 123 unit: METER }
         radius { value: 3 unit: METER }
         elevation { value: 50 unit: DEGREE }
         maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1539,7 +1539,7 @@ definitions {
       piercing: 0
       spread { value: 0 unit: DEGREE }
       lob {
-        maximum_distance { value: 32 unit: METER }
+        maximum_distance { value: 123 unit: METER }
         radius { value: 3 unit: METER }
         elevation { value: 50 unit: DEGREE }
         maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1569,7 +1569,7 @@ definitions {
       piercing: 0
       spread { value: 0 unit: DEGREE }
       lob {
-        maximum_distance { value: 32 unit: METER }
+        maximum_distance { value: 123 unit: METER }
         radius { value: 3 unit: METER }
         elevation { value: 50 unit: DEGREE }
         maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1599,7 +1599,7 @@ definitions {
       piercing: 0
       spread { value: 0 unit: DEGREE }
       lob {
-        maximum_distance { value: 32 unit: METER }
+        maximum_distance { value: 123 unit: METER }
         radius { value: 3 unit: METER }
         elevation { value: 50 unit: DEGREE }
         maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1629,7 +1629,7 @@ definitions {
       piercing: 0
       spread { value: 0 unit: DEGREE }
       lob {
-        maximum_distance { value: 32 unit: METER }
+        maximum_distance { value: 123 unit: METER }
         radius { value: 3 unit: METER }
         elevation { value: 50 unit: DEGREE }
         maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1642,7 +1642,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 0 unit: METER }
-    maximum_distance { value: 32 unit: METER }
+    maximum_distance { value: 123 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
@@ -1702,7 +1702,7 @@ definitions {
   }
   cooldown_millis: 15000
   lock_target: true
-  target_lock_distance { value: 32 unit: METER }
+  target_lock_distance { value: 125 unit: METER }
   effects {
     at_millis: 0
     presentation {
@@ -1735,7 +1735,7 @@ definitions {
         arrival_delay_millis: 100
         minimum_elevation { value: 45 unit: DEGREE }
         fallback {
-          maximum_distance { value: 32 unit: METER }
+          maximum_distance { value: 125 unit: METER }
           radius { value: 0 unit: METER }
           elevation { value: 50 unit: DEGREE }
           maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1771,7 +1771,7 @@ definitions {
         arrival_delay_millis: 100
         minimum_elevation { value: 45 unit: DEGREE }
         fallback {
-          maximum_distance { value: 32 unit: METER }
+          maximum_distance { value: 125 unit: METER }
           radius { value: 0 unit: METER }
           elevation { value: 50 unit: DEGREE }
           maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1807,7 +1807,7 @@ definitions {
         arrival_delay_millis: 100
         minimum_elevation { value: 45 unit: DEGREE }
         fallback {
-          maximum_distance { value: 32 unit: METER }
+          maximum_distance { value: 125 unit: METER }
           radius { value: 0 unit: METER }
           elevation { value: 50 unit: DEGREE }
           maximum_speed_multiplier { value: 1.1 unit: RATIO }
@@ -1882,7 +1882,7 @@ definitions {
   }
   ai_hints {
     minimum_distance { value: 0 unit: METER }
-    maximum_distance { value: 32 unit: METER }
+    maximum_distance { value: 125 unit: METER }
     maximum_hp_ratio { value: 1 unit: RATIO }
     minimum_qi_ratio { value: 0 unit: RATIO }
     category_weight { value: 1 unit: RATIO }
