@@ -5,13 +5,17 @@
   "name": "行矢整合验证",
   "environment": "server",
   "entrypoints": {
-    "fabric-gametest": ["dev.kizuna.meridian.human.fabric.WayfarerGameTest"]
+    "fabric-gametest": [
+      "dev.kizuna.meridian.human.fabric.WayfarerGameTest",
+      "dev.kizuna.meridian.human.fabric.WayfarerScrollDropGameTest"
+    ]
   },
   "depends": {
     "fabric-api": "*",
     "meridian_wayfarer": "*",
     "meridian_technique": "*",
     "meridian_human_host": "*",
+    "meridian_humanoid_host": "*",
     "meridian_vanilla_damage": "*"
   }
 }

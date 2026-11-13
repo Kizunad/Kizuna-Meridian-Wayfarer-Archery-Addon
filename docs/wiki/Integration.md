@@ -8,6 +8,11 @@
 三个卷轴为 `meridian_wayfarer:bow_upper_scroll`、`crossbow_scroll`、`bow_lower_scroll`。
 已装入三卷专用卷轴图标和阅读背景，由功法库根据卷 ID 加载；不创建替代 UI。
 
+生存来源：三卷都声明了 `scroll_drops { entity_type: "minecraft:pillager" chance: 0.25 }`，
+功法库据此往原版掠夺者掉落表各加一池。玩家亲手杀死、且死者会这一整卷时按 0.25 掉一卷，不是玩家打死的不掉。
+死者会哪几卷由 Threatening 学卷表决定：游炁、真炁掠夺者都会弩卷，只有真炁会弓上卷，一成真炁会弓下卷。
+0.25 是占位概率。
+
 ## 美术资源与目录身份
 
 审阅方提供的 26 张 PNG 已原样复制到 `fabric/src/main/resources/assets/meridian_wayfarer/textures/`。

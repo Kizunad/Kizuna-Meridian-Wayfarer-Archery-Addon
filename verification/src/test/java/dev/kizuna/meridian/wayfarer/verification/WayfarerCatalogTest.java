@@ -5,6 +5,7 @@ import dev.kizuna.meridian.technique.server.TechniqueRegistry;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 
@@ -13,6 +14,8 @@ import static org.junit.Assert.*;
 /** 正式目录的发现、整式费用守恒与发布边界回归。 */
 public final class WayfarerCatalogTest {
     private static final String PREFIX = "meridian_wayfarer:";
+    private static final String DROPPED_BY = "minecraft:pillager";
+    private static final double SCROLL_DROP_CHANCE = 0.25;
     private static final int TECHNIQUES = 10;
     private static final int VOLUMES = 3;
     private static final int SINGLE_ARM_MUSCLES = 3;
@@ -122,5 +125,17 @@ public final class WayfarerCatalogTest {
     private static TechniqueRegistry registry() throws IOException {
         // 注册与加载共用发行 textproto，不在测试里复制一份功法定义。
         return WayfarerCatalog.registry(WayfarerCatalog.load());
+    }
+
+    @Test
+    public void everyVolumeDropsOnlyFromPillagersKilledByPlayers() throws IOException {
+        // 生存来源：三卷都只向掠夺者声明一项，概率占位；死者会不会这一卷由 Threatening 学卷表决定。
+        ScrollDrop drop = ScrollDrop.newBuilder()
+                .setEntityType(DROPPED_BY)
+                .setChance(SCROLL_DROP_CHANCE)
+                .build();
+        for (var volume : registry().volumes()) {
+            assertEquals(volume.getId(), List.of(drop), volume.getScrollDropsList());
+        }
     }
 }
