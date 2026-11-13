@@ -5,9 +5,13 @@ import dev.kizuna.meridian.technique.protocol.pb.TechniqueMessages.CastPhase;
 import dev.kizuna.meridian.technique.protocol.pb.TechniqueMessages.Hand;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import java.util.List;
 
 import static dev.kizuna.meridian.human.fabric.WayfarerTestPlayer.AMMUNITION;
 
@@ -17,6 +21,9 @@ public final class WayfarerGameTest {
     private static final int FULL_DRAW_PAID_TICK = 50;
     private static final int FULL_DRAW_RELEASED_TICK = 80;
     private static final int FULL_DRAW_FINISHED_TICK = 125;
+    /** 满月收势后再等过本书最长的 6 秒冷却。 */
+    private static final int FULL_DRAW_COOLED_TICK = 250;
+    private static final int TWO_FULL_DRAWS_TIMEOUT_TICKS = 380;
     private static final int REPEATER_FIRST_PAID_TICK = 26;
     private static final int REPEATER_RELEASED_TICK = 68;
     private static final int REPEATER_SHOTS = 5;
@@ -57,6 +64,42 @@ public final class WayfarerGameTest {
                 context.succeed();
             }
         });
+    }
+
+    @GameTest(maxTicks = TWO_FULL_DRAWS_TIMEOUT_TICKS)
+    public void fullDrawShootsFromTheNewPlayerAfterReturningFromTheEnd(GameTestHelper context) {
+        // 学会满月射一箭；看完终末之诗回主世界时服务端换了玩家实体，再施放一次，箭要从新实体身上射出。
+        var fixture = new WayfarerTestPlayer(context);
+        fixture.equip(Items.BOW, InteractionHand.MAIN_HAND);
+        context.assertTrue(fixture.cast("full_draw").getPhase() == CastPhase.WARMUP, "换实体前满月起手失败");
+        context.runAfterDelay(FULL_DRAW_COOLED_TICK, () -> {
+            try {
+                List<AbstractArrow> first = fixture.arrows();
+                first.forEach(AbstractArrow::discard);
+                context.assertTrue(first.size() == 1 && !fixture.progress().hasActiveCast(),
+                        "换实体前满月没有射出一箭并收势");
+                ServerPlayer current = fixture.returnFromEnd();
+                context.assertTrue(current != fixture.player, "服务端没有换出新的玩家实体");
+                var outcome = fixture.cast("full_draw", "wayfarer_full_draw_after_end");
+                context.assertTrue(outcome.getPhase() == CastPhase.WARMUP, "换实体后满月起手失败：" + outcome);
+                context.runAfterDelay(FULL_DRAW_RELEASED_TICK, () -> verifySecondArrow(context, fixture, current));
+            } catch (Throwable failure) {
+                fixture.close();
+                throw failure;
+            }
+        });
+    }
+
+    private static void verifySecondArrow(GameTestHelper context, WayfarerTestPlayer fixture, ServerPlayer current) {
+        // 箭归新实体所有、生在新实体所在的世界；物品栏随实体带回来，再扣一支。
+        try (fixture) {
+            List<AbstractArrow> arrows = WayfarerTestPlayer.arrowsOf(current);
+            arrows.forEach(AbstractArrow::discard);
+            context.assertTrue(arrows.size() == 1, "换实体后的箭没有从新实体身上射出：" + arrows.size() + " 支");
+            context.assertTrue(current.getOffhandItem().getCount() == AMMUNITION - 2,
+                    "换实体后弹药扣除错误：剩 " + current.getOffhandItem().getCount());
+            context.succeed();
+        }
     }
 
     @GameTest(maxTicks = TIMEOUT_TICKS)

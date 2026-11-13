@@ -13,7 +13,9 @@ import dev.kizuna.meridian.technique.protocol.pb.TechniqueMessages.*;
 import dev.kizuna.meridian.technique.server.TechniqueState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
@@ -21,9 +23,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Set;
 
 /** 只替换网络传输，身体、学习、费用和世界效果使用正式宿主。 */
 final class WayfarerTestPlayer implements AutoCloseable {
@@ -67,6 +71,11 @@ final class WayfarerTestPlayer implements AutoCloseable {
     }
 
     CastOutcome cast(String name) {
+        // 每式只施放一次的用例共用按式命名的施放身份。
+        return cast(name, "wayfarer_" + name);
+    }
+
+    CastOutcome cast(String name, String castId) {
         // 学习和施放都引用正式目录，测试不复制效果参数。
         var service = TechniqueFabric.service();
         var definition = service.registry().findLatest(PREFIX + name).orElseThrow();
@@ -77,7 +86,7 @@ final class WayfarerTestPlayer implements AutoCloseable {
                 .build();
         CastRequest request = CastRequest.newBuilder()
                 .setBodyId(player.getStringUUID())
-                .setCastId("wayfarer_" + name)
+                .setCastId(castId)
                 .setTechnique(reference)
                 .build();
         return service.cast(player.getUUID(), request);
@@ -103,9 +112,30 @@ final class WayfarerTestPlayer implements AutoCloseable {
     }
 
     List<AbstractArrow> arrows() {
+        // 登录时那个玩家实体射出的箭。
+        return arrowsOf(player);
+    }
+
+    static List<AbstractArrow> arrowsOf(ServerPlayer shooter) {
         // 即便箭已碰到测试结构边界，仍以拥有者隔离实际生成的箭。
-        return player.level().getEntitiesOfClass(AbstractArrow.class,
-                player.getBoundingBox().inflate(ARROW_SEARCH_RADIUS), arrow -> arrow.getOwner() == player);
+        return shooter.level().getEntitiesOfClass(AbstractArrow.class,
+                shooter.getBoundingBox().inflate(ARROW_SEARCH_RADIUS), arrow -> arrow.getOwner() == shooter);
+    }
+
+    ServerPlayer returnFromEnd() {
+        // 原版传送进末地，再像跳进返回传送门那样放终末之诗；客户端看完发重生指令，服务端这时换出新的玩家实体。
+        // 新实体出生在世界出生点，放回原来的位置和朝向。
+        Vec3 position = player.position();
+        MinecraftServer server = player.level().getServer();
+        player.teleportTo(server.getLevel(Level.END), position.x, position.y, position.z, Set.of(), 0, 0,
+                true /* resetCamera */);
+        player.showEndCredits();
+        player.connection.handleClientCommand(
+                new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.PERFORM_RESPAWN));
+        ServerPlayer current = server.getPlayerList().getPlayer(player.getUUID());
+        current.snapTo(position.x, position.y, position.z, 0, 0);
+        current.setNoGravity(true /* noGravity */);
+        return current;
     }
 
     @Override
