@@ -28,5 +28,11 @@
   "technique.meridian_wayfarer.dry_draw.note": "训练式：原地空拉 30 秒，不用箭，练完两臂耐力成长",
   "item.meridian_wayfarer.bow_upper_scroll": "行矢·弓·上卷·百步",
   "item.meridian_wayfarer.crossbow_scroll": "行矢·弩卷·机弩",
-  "item.meridian_wayfarer.bow_lower_scroll": "行矢·弓·下卷·万矢"
+  "item.meridian_wayfarer.bow_lower_scroll": "行矢·弓·下卷·万矢",
+  "advancements.meridian_wayfarer.cultivators.wayfarer.title": "长弓机弩",
+  "advancements.meridian_wayfarer.cultivators.wayfarer.description": "百步穿杨与腰下机弩皆熟稔于心，引弦既能隔山落箭雨，更能教云与草在心口处相碰。",
+  "codex.intro.meridian_wayfarer.wayfarer": "哨塔与林间传出的弓弩杀技，既能泼射如急雨，亦可借退势翻身开弓隔山落箭。",
+  "codex.power.meridian_wayfarer.bow_upper": "引弓如满月穿透老树，弓弦急响如雨连发，以弓梢砸人后退步再补冷箭。",
+  "codex.power.meridian_wayfarer.crossbow": "贴匣连发三箭贯入靶心，压腰泼射横扫开来，单膝触地生根稳射奔马。",
+  "codex.power.meridian_wayfarer.bow_lower": "退势拧身凌空回旋冷箭，既能隔山抛落黑雨，亦能引箭令天地在心口相碰。"
 }

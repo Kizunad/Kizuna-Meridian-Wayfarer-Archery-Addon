@@ -28,5 +28,11 @@
   "technique.meridian_wayfarer.dry_draw.note": "training form: draw without arrows for 30 s; arm endurance grows afterwards",
   "item.meridian_wayfarer.bow_upper_scroll": "Wayfarer · Bow I · Hundred Paces",
   "item.meridian_wayfarer.crossbow_scroll": "Wayfarer · Crossbow · Repeating Mechanism",
-  "item.meridian_wayfarer.bow_lower_scroll": "Wayfarer · Bow II · Myriad Arrows"
+  "item.meridian_wayfarer.bow_lower_scroll": "Wayfarer · Bow II · Myriad Arrows",
+  "advancements.meridian_wayfarer.cultivators.wayfarer.title": "Bow and Mechanism",
+  "advancements.meridian_wayfarer.cultivators.wayfarer.description": "A hundred paces of accuracy and a repeater at the hip, mastered down to the grain. Arrows rain down over ridges, and heaven and earth converge in the chest.",
+  "codex.intro.meridian_wayfarer.wayfarer": "Archery and crossbow craft from watchtowers and deep woods: spraying bolts like driving rain, or vaulting backward to loose an arrow over distant ridges.",
+  "codex.power.meridian_wayfarer.bow_upper": "Draw full as the moon to punch through seasoned timber, loose a string of pearls like sudden rain, crack heads with the bow strike, and slip back for a cold parting shot.",
+  "codex.power.meridian_wayfarer.crossbow": "Three bolts leave the stock in a heartbeat, sinking into the mark; drop low to spray a wide crosswind sweep, or plant a knee firm to drop a galloping mount.",
+  "codex.power.meridian_wayfarer.bow_lower": "Twist in mid-leap as you fall back to release a treacherous shot, drop an arrow rain over ridges, or loose an arrow that makes heaven and earth converge in the chest."
 }
