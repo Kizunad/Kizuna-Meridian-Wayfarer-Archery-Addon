@@ -4,7 +4,7 @@ schema_version: 1
 
 namespace: "meridian_wayfarer"
 
-binding_templates { id: "human:adult" version: 1 }
+binding_template_groups: "human:humanoid"
 
 books {
   id: "meridian_wayfarer:wayfarer"
